@@ -1,0 +1,55 @@
+#ifndef CAMERACLASS_H
+#define CAMERACLASS_H
+
+#include "xiApi.h"
+#include "Sources/xiApiPlusOcv.hpp"
+#include "opencv2/core.hpp"
+#include "opencv2/imgcodecs.hpp"
+#include <QDebug>
+#include <QGraphicsView>
+#include <QRunnable>
+#include <memory>
+
+using namespace cv;
+
+struct XimeaData
+{
+    int exposure = 10000;
+    int gain = 8;
+    int compression = 50;
+};
+
+class XimeaCamera
+{
+
+public:
+    explicit XimeaCamera();
+    void InitCamera(unsigned long in_cam_id = 0, unsigned long in_cam_num = 1);
+    void ChangeGain(int gain_value);
+    void ChangeCompression(int in_compression_value);
+    void ChangeCompressionType(int in_compression_type);
+
+    void ChangeImageType(XI_IMG_FORMAT img_format);
+    void ChangeExposure(int exp_value);
+    void SetDownsamplingPower(XI_DOWNSAMPLING_VALUE downsamling_power);
+    Mat GetMatImage();
+    QByteArray GetUcharImage();
+    void Start();
+    XI_SWITCH Status();
+    void Stop();
+    void Close();
+    XimeaData controlData;
+private:
+
+    xiAPIplusCameraOcv cam;
+    unsigned long cam_id;
+    unsigned long cam_num;
+    std::vector<uchar> buf;
+    std::vector<int> params;
+    int compression_type;
+    int compression_value;
+    void ChangeCompressionParams();
+
+};
+
+#endif // CAMERACLASS_H
