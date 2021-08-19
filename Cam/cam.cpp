@@ -113,11 +113,27 @@ QPixmap Cam::Mat2Pixmap(Mat data)
 }
 */
 
+
 // Наработка по использованию ручки в графическом редакторе
 /*QPen pen_blue(Qt::blue);
 pen_red.setWidth(10);
 scene->addEllipse(min_pos.x, min_pos.y, 5, 5, pen_red);
+
+///////
+
+void Cam::drawEllipsesMinMax()
+{
+    cvtColor(frame, b_w_frame, CV_BGR2GRAY);
+    blur(b_w_frame, frame_blurred, Size(10,10));
+    minMaxLoc(frame_blurred, &min, &max, &min_pos, &max_pos);
+
+    if( (min_pos.x > 10) && (min_pos.x < frame.cols-10) && (min_pos.y > 10) && (min_pos.y < frame.rows - 10) )
+        scene->addEllipse(min_pos.x, min_pos.y, 5, 5, pen_blue);
+    if( (max_pos.x > 10) && (max_pos.x < frame.cols-10) && (max_pos.y > 10) && (max_pos.y < frame.rows - 10) )
+        scene->addEllipse(max_pos.x, max_pos.y, 5, 5, pen_red);
+}
 */
+
 
 // Наработка по использованию мышки в графическом редакторе
 /*QPointF p;
