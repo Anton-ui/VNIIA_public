@@ -16,6 +16,7 @@ SOURCES += \
 
 HEADERS += \
     Sources/cameraclass.h \
+    Sources/cv_qt_converter.h \
     Sources/xiApiPlusOcv.hpp \
     cam.h
 
@@ -25,12 +26,15 @@ FORMS += \
 INCLUDEPATH += /usr/local/include/opencv4 \
                /opt/XIMEA/include \
 
+DEPENDPATH  += $${INCLUDEPATH}
+
 LIBS += -L/usr/local/lib
 LIBS += -lopencv_core       \
         -lopencv_videoio    \
         -lopencv_objdetect  \
         -lopencv_imgcodecs  \
         -lopencv_imgproc    \
+        -lopencv_calib3d    \
         -lopencv_highgui    \
 
 LIBS += -L/usr/lib -lm3api  \

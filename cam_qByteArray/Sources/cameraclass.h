@@ -1,21 +1,19 @@
 #ifndef CAMERACLASS_H
 #define CAMERACLASS_H
 
-#define FPS 30
-// 28 FPS - предел при конфигурации 3 камер usb 2.0
-
 #include <QDebug>
 #include <QRunnable>
 #include <memory>
 
+#include <QGraphicsView>
 #include "xiApi.h"
 #include "xiApiPlusOcv.hpp"
 
-#include "opencv2/core.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
 #include "opencv2/opencv.hpp"
 #include "opencv2/videoio.hpp"
+#include "opencv2/core.hpp"
 
 using namespace cv;
 
@@ -31,7 +29,7 @@ class XimeaCamera
 
 public:
     explicit XimeaCamera();
-    int InitCamera(unsigned long in_cam_id = 0, unsigned long in_cam_num = 1);
+    void InitCamera(unsigned long in_cam_id = 0, unsigned long in_cam_num = 1);
     void ChangeGain(int gain_value);
     void ChangeCompression(int in_compression_value);
     void ChangeCompressionType(int in_compression_type);
