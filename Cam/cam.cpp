@@ -147,3 +147,28 @@ protected:
         emit signal2(p.x(), p.y());
     }
 */
+
+
+// Наработка по использованию мыши с widget
+/*
+class CustomScene : public QGraphicsScene
+{
+    Q_OBJECT
+    QGraphicsLineItem *item;
+public:
+    QPointF p;
+signals:
+    void signal2(qreal x, qreal y);
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event){
+        p = event->scenePos();
+        qDebug() << p;
+        emit signal2(p.x(), p.y());
+    }
+};
+
+unique_ptr<CustomScene> scene;   // custom!!
+        scene.reset(new CustomScene);
+        view->setScene(scene.get());
+*/
