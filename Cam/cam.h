@@ -6,6 +6,7 @@
 
 #define IS_UI           TRUE
 #define IS_DETECT_FACE FALSE
+#define IS_GRANI       FALSE
 
 
 #include <QMainWindow>
@@ -17,6 +18,7 @@
 #include <QPixmap>
 
 #include "Sources/cameraclass.h"
+#include "Sources/cv_qt_converter.h"
 
 using namespace std;
 using namespace cv;
@@ -39,6 +41,8 @@ private slots:
     void on_Start_clicked();
     void on_Stop_clicked();
     void CaptureImage();
+
+    void process_view(Mat incoming_mat, int var);
 
 private:
     Ui::Cam *ui;

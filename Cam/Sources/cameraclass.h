@@ -1,7 +1,7 @@
 #ifndef CAMERACLASS_H
 #define CAMERACLASS_H
 
-#define FPS 30
+#define FPS 28
 // 28 FPS - предел при конфигурации 3 камер usb 2.0
 
 #include <QDebug>

@@ -16,6 +16,7 @@ SOURCES += \
 
 HEADERS += \
     Sources/cameraclass.h \
+    Sources/cv_qt_converter.h \
     Sources/xiApiPlusOcv.hpp \
     cam.h
 
@@ -31,6 +32,7 @@ LIBS += -lopencv_core       \
         -lopencv_objdetect  \
         -lopencv_imgcodecs  \
         -lopencv_imgproc    \
+        -lopencv_calib3d    \
         -lopencv_highgui    \
 
 LIBS += -L/usr/lib -lm3api  \

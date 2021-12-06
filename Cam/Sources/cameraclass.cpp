@@ -31,10 +31,11 @@ int XimeaCamera::InitCamera(unsigned long in_cam_id, unsigned long in_cam_num)
     if (model_id == 23) {
         cam.SetDownsampling(XI_DWN_4x4);
         cam.SetXIAPIParamInt(XI_PRM_LIMIT_BANDWIDTH, 150);
-        //cam.SetFrameRate(FPS);
+        cam.SetFrameRate(FPS);
     } else {
         cam.SetDownsampling(XI_DWN_2x2);
         cam.SetXIAPIParamInt(XI_PRM_LIMIT_BANDWIDTH, 1000);
+        cam.SetFrameRate(FPS);
     }
     /////////////////////////////////////////////////////////////////
     /// Компрессия методами OpenCV

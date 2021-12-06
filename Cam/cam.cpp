@@ -32,6 +32,7 @@ Cam::Cam(QWidget *parent)
     }
     if (IS_DETECT_FACE)
         face_cascade.load("/home/camel212/QtProjects/haarcascade_frontalface_alt.xml");
+    timer->start();
 }
 
 Cam::~Cam()
@@ -48,7 +49,7 @@ void Cam::on_Start_clicked()
         for (int var = 0; var < cam_vector.size(); ++var)
             if(cam_vector[var].Status() != XI_ON)
                cam_vector[var].Start();
-        timer->start();
+        //timer->start();
         is_started = true;
     }
     // Узнать версию opencv:
@@ -58,7 +59,7 @@ void Cam::on_Start_clicked()
 
 void Cam::on_Stop_clicked()
 {
-    timer->stop();
+    //timer->stop();
     for (int var = 0; var < cam_vector.size(); ++var)
        cam_vector[var].Stop();
     is_started = false;
@@ -92,6 +93,10 @@ void Cam::CaptureImage()
 
             if (IS_UI) // Графическая оболочка
             {
+                if (IS_GRANI)
+                {
+                    process_view(mat_vector[var], var);
+                }
                 view_vector[var]->scene()->addPixmap(pixmap_vector[var]);
                 view_vector[var]->setScene(scene_vector[var]);
                 view_vector[var]->fitInView(pixmap_vector[var].rect(), Qt::KeepAspectRatio);
@@ -104,6 +109,23 @@ QPixmap Cam::Mat2Pixmap(Mat data)
     cvtColor(data, data, COLOR_RGBA2BGRA);
     return QPixmap::fromImage(QImage((unsigned char*) data.data, data.cols, data.rows, QImage:: Format_RGBX8888));
 }
+
+
+// Наработка по обнаружению границ
+void Cam::process_view(Mat incoming_mat, int var)
+{
+    Mat src_gray, gray2;
+    Mat dst, detected_edges;
+    int lowThreshold = 3000;
+    const int ratio = 3;
+    const int kernel_size = 7;
+
+    cv::cvtColor(incoming_mat, src_gray, CV_BGR2GRAY);
+    blur( src_gray, detected_edges, Size(3,3) );
+    Canny( detected_edges, detected_edges, lowThreshold, lowThreshold*ratio, kernel_size );
+    pixmap_vector[var] = Mat2Pixmap(detected_edges);
+}
+
 
 
 // Наработка по использованию вертикального ползунка в графическом редакторе
@@ -119,8 +141,8 @@ QPixmap Cam::Mat2Pixmap(Mat data)
 pen_red.setWidth(10);
 scene->addEllipse(min_pos.x, min_pos.y, 5, 5, pen_red);
 
-///////
 
+// ~~~Наработка по рисованию на выходящем изображении
 void Cam::drawEllipsesMinMax()
 {
     cvtColor(frame, b_w_frame, CV_BGR2GRAY);
