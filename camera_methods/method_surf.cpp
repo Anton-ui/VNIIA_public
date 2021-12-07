@@ -2,7 +2,7 @@
 
 method_surf::method_surf()
 {
-    example = imread ("/home/camel212/QtProjects/detail_3.png", CV_LOAD_IMAGE_GRAYSCALE);
+    example = imread ("/home/trk/QtProjects/VNIIA_public/cup.png", CASCADE_SCALE_IMAGE);
     if (!example.data)
         qDebug() << "Image didn't opened!";
     blur(example,example, Size(1, 1));
@@ -11,10 +11,10 @@ method_surf::method_surf()
     surf->detectAndCompute(example, Mat(), kp_example, des_example, false);
 
     example_corners.resize(4);
-    example_corners[0] = cvPoint(0,0);
-    example_corners[1] = cvPoint( example.cols, 0 );
-    example_corners[2] = cvPoint( example.cols, example.rows );
-    example_corners[3] = cvPoint( 0, example.rows );
+    example_corners[0] = Point(0,0);
+    example_corners[1] = Point( example.cols, 0 );
+    example_corners[2] = Point( example.cols, example.rows );
+    example_corners[3] = Point( 0, example.rows );
 }
 
 void method_surf::Method_surf_ON(Mat mat_vector, Mat &mat_vector_out)
@@ -59,7 +59,7 @@ void method_surf::Method_surf_ON(Mat mat_vector, Mat &mat_vector_out)
             scene.push_back( kp_image[ goodMatches[ i ].trainIdx ].pt );
         }
         try {
-           H = findHomography( obj, scene, CV_RANSAC );
+           H = findHomography( obj, scene, RANSAC );
            if ( !H.empty())
                perspectiveTransform( example_corners, scene_corners, H );
 

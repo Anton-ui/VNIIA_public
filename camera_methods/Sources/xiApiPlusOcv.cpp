@@ -6270,7 +6270,7 @@
 	 
 	
 	// Lens focus distance in cm. (XI_PRM_LENS_FOCUS_DISTANCE)
-	float xiAPIplus_Camera::GetLensFocusDistance()
+/*	float xiAPIplus_Camera::GetLensFocusDistance()
 	{
 		float val=0;
 		
@@ -6312,7 +6312,7 @@
 		XI_RETURN res=xiGetParamFloat(camera_handle, XI_PRM_LENS_FOCUS_DISTANCE XI_PRM_INFO_INCREMENT, &val);
 		CheckResult(res,"GetLensFocusDistance" "_Increment");
 		return val;
-	}
+    }*/
 	 
 	
 	// Lens focal distance in mm. (XI_PRM_LENS_FOCAL_LENGTH)

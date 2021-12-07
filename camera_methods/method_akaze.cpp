@@ -4,7 +4,7 @@ BFMatcher matcher(NORM_HAMMING);
 
 method_akaze::method_akaze()
 {
-    example = imread ("/home/camel212/QtProjects/detail_3.png", CV_LOAD_IMAGE_GRAYSCALE);
+    example = imread ("/home/trk/QtProjects/VNIIA_public/cup.png", CASCADE_SCALE_IMAGE);
     if (!example.data)
         qDebug() << "Image didn't opened!";
     blur(example,example, Size(1, 1));
@@ -13,10 +13,10 @@ method_akaze::method_akaze()
     akaze->detectAndCompute(example, Mat(), kp, descr, false);
 
     obj_corners.resize(4);
-    obj_corners[0] = cvPoint(0,0);
-    obj_corners[1] = cvPoint( example.cols, 0 );
-    obj_corners[2] = cvPoint( example.cols, example.rows );
-    obj_corners[3] = cvPoint( 0, example.rows );
+    obj_corners[0] = Point(0,0);
+    obj_corners[1] = Point( example.cols, 0 );
+    obj_corners[2] = Point( example.cols, example.rows );
+    obj_corners[3] = Point( 0, example.rows );
 }
 
 void method_akaze::Method_akaze_ON(Mat mat_vector, Mat &mat_vector_out)
@@ -56,7 +56,7 @@ void method_akaze::Method_akaze_ON(Mat mat_vector, Mat &mat_vector_out)
                 scene.push_back( kp_query[ good_matches[ i ].trainIdx ].pt );
         }
         try {
-           Mat H = findHomography( obj, scene, CV_RANSAC );
+           Mat H = findHomography( obj, scene, RANSAC );
            if (! H.empty())
                perspectiveTransform( obj_corners, scene_corners, H );
 

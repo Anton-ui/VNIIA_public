@@ -2,7 +2,7 @@
 
 method_template::method_template()
 {
-    templat = imread("/home/camel212/QtProjects/cup.png", IMREAD_COLOR );
+    templat = imread("/home/trk/QtProjects/VNIIA_public/cup.png", IMREAD_COLOR );
     if(templat.empty())
       qDebug() << "Can't read one of the images";
     cvtColor(templat, gray2, COLOR_BGR2GRAY);
@@ -23,10 +23,10 @@ void method_template::Method_temp_ON(Mat mat_vector, Mat &mat_vector_out)
     minMaxLoc( result, &null, &max, &minLoc, &maxLoc, Mat() );
     if(max > 0.006)
     {
-        scene_corners[0] = cvPoint(maxLoc.x,                maxLoc.y);
-        scene_corners[1] = cvPoint(maxLoc.x,                maxLoc.y + templat.rows);
-        scene_corners[2] = cvPoint(maxLoc.x + templat.cols, maxLoc.y + templat.rows);
-        scene_corners[3] = cvPoint(maxLoc.x + templat.cols, maxLoc.y);
+        scene_corners[0] = Point(maxLoc.x,                maxLoc.y);
+        scene_corners[1] = Point(maxLoc.x,                maxLoc.y + templat.rows);
+        scene_corners[2] = Point(maxLoc.x + templat.cols, maxLoc.y + templat.rows);
+        scene_corners[3] = Point(maxLoc.x + templat.cols, maxLoc.y);
 
         line(mat_vector_out, scene_corners[ 0 ] , scene_corners[ 1 ] , Scalar( 255, 0, 0 ), 4);
         line(mat_vector_out, scene_corners[ 1 ] , scene_corners[ 2 ] , Scalar( 255, 0, 0 ), 4);

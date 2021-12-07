@@ -11,16 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = camera_methods
 TEMPLATE = app
 
-# The following define makes your compiler emit warnings if you use
-# any feature of Qt which has been marked as deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
-# deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-
-# You can also make your code fail to compile if you use deprecated APIs.
-# In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 CONFIG += c++11
 
@@ -28,7 +19,6 @@ SOURCES += \
     Sources/cameraclass.cpp \
     Sources/xiApiPlusOcv.cpp \
     Sources/qcustomplot.cpp \
-    Sources/cameraclass.cpp \
     main.cpp \
     cam.cpp \
     method_xml.cpp \
@@ -36,7 +26,6 @@ SOURCES += \
     method_template.cpp \
     method_akaze.cpp \
     threads_manager.cpp \
-    Sources/qcustomplot.cpp
 
 HEADERS += \
     Sources/cameraclass.h \
@@ -56,8 +45,19 @@ FORMS += \
 INCLUDEPATH += /usr/local/include/opencv4 \
                /opt/XIMEA/include \
 
-LIBS += -L/usr/local/lib -lopencv_core -lopencv_videoio -lopencv_objdetect -lopencv_imgcodecs -lopencv_imgproc -lopencv_calib3d \
-         -lopencv_features2d -lopencv_xfeatures2d -lopencv_highgui -lopencv_flann  -L/usr/lib -lm3api
+LIBS += -L/usr/local/lib
+LIBS += -lopencv_core        \
+        -lopencv_videoio     \
+        -lopencv_objdetect   \
+        -lopencv_imgcodecs   \
+        -lopencv_imgproc     \
+        -lopencv_calib3d     \
+        -lopencv_features2d  \
+        -lopencv_xfeatures2d \
+        -lopencv_highgui     \
+        -lopencv_flann       \
+
+LIBS += -L/usr/lib -lm3api
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
