@@ -140,7 +140,8 @@ translateImg(mat_vector[var], 100, 0);
 translateImg(mat_vector[var], 0, 200);
 translateImg(mat_vector[var], 0, -50);
 
-addWeighted( mat_vector[var], alpha, black, beta, 0.0, result); наложение картинок со своим весом*/
+addWeighted( mat_vector[var], alpha, black, beta, 0.0, result); наложение картинок со своим весом
+https://stackoverflow.com/questions/19068085/shift-image-content-with-opencv // важная инфа и более простая реализация */
 
 
 // Наработка по использованию вертикального ползунка в графическом редакторе
