@@ -110,7 +110,6 @@ QPixmap Cam::Mat2Pixmap(Mat data)
     return QPixmap::fromImage(QImage((unsigned char*) data.data, data.cols, data.rows, QImage:: Format_RGBX8888));
 }
 
-
 // Наработка по обнаружению границ
 void Cam::process_view(Mat incoming_mat, int var)
 {
@@ -126,6 +125,22 @@ void Cam::process_view(Mat incoming_mat, int var)
     pixmap_vector[var] = Mat2Pixmap(detected_edges);
 }
 
+
+
+// Наработка по сдвигу изображения
+/*Mat Cam::translateImg(Mat &img, int offsetx, int offsety)
+{
+    Mat trans_mat = (Mat_<double>(2,3) << 1, 0, offsetx, 0, 1, offsety);
+    warpAffine(img,img,trans_mat,img.size());
+    return img;
+}
+
+translateImg(mat_vector[var],-200, 0);
+translateImg(mat_vector[var], 100, 0);
+translateImg(mat_vector[var], 0, 200);
+translateImg(mat_vector[var], 0, -50);
+
+addWeighted( mat_vector[var], alpha, black, beta, 0.0, result); наложение картинок со своим весом*/
 
 
 // Наработка по использованию вертикального ползунка в графическом редакторе

@@ -5,7 +5,7 @@ XimeaCamera::XimeaCamera()
 
 }
 
-void XimeaCamera::InitCamera(unsigned long in_cam_id, unsigned long in_cam_num)
+int XimeaCamera::InitCamera(unsigned long in_cam_id, unsigned long in_cam_num)
 {
 
     cam_id = in_cam_id;
@@ -16,30 +16,36 @@ void XimeaCamera::InitCamera(unsigned long in_cam_id, unsigned long in_cam_num)
     /////////////////////////////////////////////////////////////////
     xiSetParamInt(nullptr, XI_PRM_AUTO_BANDWIDTH_CALCULATION, XI_OFF);
     cam.OpenByID(cam_id);
-    int interface_data_rate = 2400;
-    int camera_data_rate = interface_data_rate/int(cam_num);
-    camera_data_rate*=0.9;
     int model_id = cam.GetModelId();
-    qDebug() << model_id;
-    cam.SetBandwidthLimit(camera_data_rate);
+    //qDebug() << "Model ID:" << model_id;
     /////////////////////////////////////////////////////////////////
     /// Цветное изображение, автоматический баланс белого
     /////////////////////////////////////////////////////////////////
-    cam.SetImageDataFormat(XI_RGB32);
+    cam.SetImageDataFormat(XI_RGB24);
     cam.EnableWhiteBalanceAuto();
     /////////////////////////////////////////////////////////////////
     /// Базовые настройки
     /////////////////////////////////////////////////////////////////
     cam.SetExposureTime(controlData.exposure);
     cam.SetGain(controlData.gain);
-    cam.SetDownsamplingType(cam.GetDownsamplingType_Maximum());
-    cam.SetDownsampling(cam.GetDownsampling_Maximum());
+    if (model_id == 23) {
+        cam.SetDownsampling(XI_DWN_4x4);
+        cam.SetXIAPIParamInt(XI_PRM_LIMIT_BANDWIDTH, 150);
+        cam.SetFrameRate(FPS);
+    } else {
+        cam.SetDownsampling(XI_DWN_2x2);
+        cam.SetXIAPIParamInt(XI_PRM_LIMIT_BANDWIDTH, 1000);
+        cam.SetFrameRate(FPS);
+    }
     /////////////////////////////////////////////////////////////////
     /// Компрессия методами OpenCV
     /////////////////////////////////////////////////////////////////
-    compression_type = CV_IMWRITE_JPEG_QUALITY;
+    compression_type = cv::IMWRITE_JPEG_QUALITY;
     compression_value = controlData.compression;
     ChangeCompressionParams();
+    cam.SetBufferPolicy(XI_BP_UNSAFE);
+
+    return model_id;
 }
 
 void XimeaCamera::ChangeCompressionType(int in_compression_type)
@@ -135,7 +141,7 @@ void XimeaCamera::ChangeExposure(int exp_value)
      catch (xiAPIplus_Exception& exp)
      {
          printf("Error XimeaCamera::ChangeExposure:\n");
-         exp.PrintError();
+                 exp.PrintError();
      }
  }
 
